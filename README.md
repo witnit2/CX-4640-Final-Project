@@ -49,16 +49,42 @@ The steps to apply the method for closed-form quadrature on the intergral ($\int
 2. Define a set of x-values equally spaced between $a$ and $b$ ($x_i= a+ih$ for $i$ from 0 to $n$ inclusive and where $h = \frac{b−a}{n}$).
 3. Compute $f(x_i)$ for each value of $x_i$.
 4. Use predetermined weights ($H_{i,n}$) at each value to compute the integral. The weights are [computed](#Derivations) in such a way as to mimic the behavior of the interpolating polynomial over that interval. The final value is
-   $$\int_{a}^{b} f(x) dx = \sum_{i=0}^{n} H_{i,n}f(x_i) + E_n(f)$$
+   $$\int_{a}^{b} f(x) dx = h\sum_{i=0}^{n} H_{i,n}f(x_i) + E_n(f)$$
    , where $E_n(f)$ is the error term associated with the approximation.
 
-The most well-known forms of the Newton-Cotes closed-form quadrature are the trapezoidal rule (with an interpolating polynomial degree of $n=1$), and the Simpson's 1/3 rule and 3/8 rule (both with $n=2$). 
+Weights ($H_{i,n}$) for Closed-Form Quadrature for $n$ = 1 to 5
+
+| $n$       | $H_{i,n}$                                |
+| -------------------------------- |:--------------------------------------:|
+| 1      | $\frac{1}{2}$, $\frac{1}{2}$   |
+| 2      | $\frac{1}{6}$, $\frac{2}{3}$, $\frac{1}{6}$      | 
+| 3      | $\frac{1}{8}$, $\frac{3}{8}$, $\frac{3}{8}$, $\frac{1}{8}$     |
+| 4      | $\frac{7}{90}$, $\frac{32}{90}$, $\frac{12}{90}$, $\frac{32}{90}$, $\frac{7}{90}$    |
+| 5      | $\frac{19}{288}$, $\frac{25}{96}$, $\frac{25}{144}$, $\frac{25}{144}$, $\frac{25}{96}$, $\frac{19}{288}$    |
+
+The most well-known forms of the Newton-Cotes closed-form quadrature are the trapezoidal rule (with an interpolating polynomial degree of $n=1$), Simpson's 1/3 rule (with $n = 2$), and Simpson's 3/8 rule (with $n = 3$). 
 These are widely regarded due to their simplicity and precision, though they have a tendency to misrepresent functions over large intervals with more complex curvature due to their simplicity. 
 
-The open-form quadrature method works similarly, but does not consider values at the endpoints $a$ and $b$ in the computation, using only the interior points. This changes the defined weights for computation. The final value is instead $$\int_{a}^{b} f(x) dx = \sum_{i=1}^{n-1} H_{i,n}f(x_i) + E_n(f)$$. 
+The open-form quadrature method works similarly, but does not consider values at the endpoints $a$ and $b$ in the computation, using only the interior points. This changes the defined weights for computation. The final value is still the same: $$\int_{a}^{b} f(x) dx = h\sum_{i=0}^{n} H_{i,n}f(x_i) + E_n(f)$$. 
+
+Weights ($H_{i,n}$) for Open-Form Quadrature for $n$ = 0 to 5
+
+| $n$       | $H_{i,n}$                                |
+| -------------------------------- |:--------------------------------------:|
+| 0      | 1  |
+| 1      | $\frac{1}{2}$, $\frac{1}{2}$      | 
+| 2      | $\frac{2}{3}$, $-\frac{1}{3}$, $\frac{2}{3}$     |
+| 3      | $\frac{1}{24}$, $\frac{11}{24}$, $\frac{11}{24}$, $\frac{1}{24}$    |
+| 4      | $\frac{11}{20}$, $-\frac{7}{10}$, $\frac{13}{10}$, $-\frac{7}{10}$, $\frac{11}{20}$ |
+| 5      | $\frac{611}{1440}$, $-\frac{151}{480}$, $\frac{281}{720}$, $\frac{281}{720}$, $-\frac{151}{480}$, $\frac{611}{1440}$ |
 ## Differences from Other Types of Quadrature
-Newton-Cotes quadrature, as opposed to other forms of quadrature such as Gaussian quadrature, is simple, requiring low derivative computation that can be done by hand or by simple programs. However, for larger values of $n$ and higher desired accuracy, the approximation can produce erratic results and the problem can become ill-defined. For any value above $n=11$, there will be at least one negative weight, and in general, $\sum_{i=0}^{n} |H_{i,n}| \rightarrow \infty$ as $n \rightarrow \infty$. Instead, it is better to divide the interval into [subintervals](#Extension-to-Composite-Quadrature). 
+Newton-Cotes quadrature, as opposed to other forms of quadrature such as Gaussian quadrature and spline quadrature, is simple, requiring low derivative computation that can be done by hand or by simple programs. It also does not vary the weights necessary for interpolation and samples at equally spaced points. Therefore, in cases where the values at equally spaced intervals are given, Newton-Cotes quadrature is easier to compute. 
+
+However, for larger values of $n$ and higher desired accuracy, the approximation can produce erratic results and the problem can become ill-defined due to Runge's phenomenon. For any value above $n=11$, there will be at least one negative weight in closed form quadrature, and in general, $\sum_{i=0}^{n} |H_{i,n}| \rightarrow \infty$ as $n \rightarrow \infty$. Instead, it is better to divide the interval into [subintervals](#Extension-to-Composite-Quadrature) or to switch to another quadrature method
+
+One alternative is to use a least-squares approximation instead of a polynomial interpolation. Knowing that approximations with a lower value of $n$ have stronger noise suppression, least-squares approximations can be used to derive higher order integration filters. The main cost to this, however, is a larger constant in the error term than traditional Newton-Cotes quadrature. 
 ## Derivations
+The Lagrange interpolating polynomial is the 
 ## Error
 ## Extension to Composite Quadrature
 ## References
@@ -66,4 +92,7 @@ Newton-Cotes quadrature, as opposed to other forms of quadrature such as Gaussia
 2. Agbota, L. (2024). Newton-Cotes Quadrature Formulas with Error Term. https://doi.org/10.13140/RG.2.2.27346.98241
 3. Catapang, L., Mandaje, J., & Siong, V. (2024). Convergence Analysis of Newton-Cotes methods: Optimizing Sub-Intervals selection for precise integral approximation. Applied Mathematics and Sciences: An International Journal, 11(1/2).
 4. Osada, N. (2013). Isaac Newton’s “Of Quadrature by Ordinates.” Archive for History of Exact Sciences, 67(4), 457–476. http://www.jstor.org/stable/23479271
-5. Sermutlu, E. (2005). Comparison of Newton–Cotes and gaussian methods of quadrature. Applied Mathematics and Computation, 171(2), 1048–1057. https://doi.org/10.1016/j.amc.2005.01.102 
+5. Sermutlu, E. (2005). Comparison of Newton–Cotes and gaussian methods of quadrature. Applied Mathematics and Computation, 171(2), 1048–1057. https://doi.org/10.1016/j.amc.2005.01.102
+6. Magalhaes, P.A.A. & Magalhaes, C.A. Higher-Order Newton-Cotes Formulas. J. Math. Stat. 2010,6, 193–204.
+7. Pavel Holoborodko (2011-03-24). ["Stable Newton-Cotes Formulas"](http://www.holoborodko.com/pavel/numerical-methods/numerical-integration/stable-newton-cotes-formulas/)
+8. Das, Biswajit & Chakrabarty, Dhritikesh. (2016). Lagrange’s Interpolation Formula: Representation of Numerical Data by a Polynomial curve. International Journal of Mathematics Trends and Technology. 34. 64-72. 10.14445/22315373/IJMTT-V34P514. 
