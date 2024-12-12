@@ -9,8 +9,8 @@ Title: Background and Applications of Newton-Cotes Quadrature
 ## Table of Contents
 - [Overview](#Overview)
 - [History](#History)
+- [Process](#Process)
 - [Differences from Other Types of Quadrature](#Differences-from-Other-Types-of-Quadrature)
-- [Uses](#Uses)
 - [Derivations](#Derivations)
 - [Error](#Error)
 - [Extension to Composite Quadrature](#Extension-to-Composite-Quadrature)
@@ -18,17 +18,14 @@ Title: Background and Applications of Newton-Cotes Quadrature
 
 Newton-Cotes Quadrature. How it works, what makes it different from other types of quadrature. When it might be used over other types of quadrature. How to derive different quadrature rules of different "degrees". Extension to composite quadrature rules.
 ## Overview
-Newton-Cotes quadrature is a numerical method for determining the definite integral of a function ($\int_{a}^{b} f(x) dx\$). The steps to apply the method for closed-form quadrature are as follows:
-1. Determine a desired polynomial degree $n$.
-2. Define a set of x-values equally spaced between $a$ and $b$ ($x_i= a+ih$ for $i$ from 0 to $n$ inclusive and where $h = \frac{b−a}{n}$).
-3. Compute $f(x_i)$ for each value of $x_i$.
-4. Use predetermined weights ($H_{i,n}$) at each value to compute the integral. The final value is
-   $$\int_{a}^{b} f(x) dx = \sum_{i=0}^{n} H_{i,n}f(x_i) + E_n(f)$$
-   , where $E_n(f)$ is the error term associated with the approximation.
-
-The open-form quadrature method works similarly, but does not consider values at the endpoints $a$ and $b$ in the computation, using only the interior points. This changes the defined weights for computation.
+Quadrature refers to any method for determining the definite integral of a function over a defined interval, typically involving a numerical method. 
+Newton-Cotes quadrature is a form of quadrature that involves using an interpolating polynomial over a set of equally spaced points within the interval, which is then integrated to get an approximation of the integral of the original function. 
+There are two types of Newton-Cotes quadrature: the closed-form, which uses the endpoints of the interval in it's computation of the interpolating polynomial, and the open-form, which only considers the interior points.
 ## History
-Isaac Newton, in his *Principia* (1687), proposed a theory of numerical integration by polynomial interpolation, believing that a parabola defined between two points would be able to approximate a curved area to solve for the area under the curve. He used this theory to propose his first assumption about the nature of the approximation, which is today known as the "Simpson's 3/8 rule". He then, in his manuscript *Of Quadrature by Ordinates* (1695), proposed a method for determining the weights, in which, due to the ratios of his error terms being incorrect, his values were slightly off. Roger Cotes furthered the work of Newton in his *Harmonia Mensurarum* (1722), determining the weights for values up to $n = 11$, hence the name "Newton-Cotes quadrature". 
+Isaac Newton, in his *Principia* (1687), proposed a theory of numerical integration by polynomial interpolation, believing that a parabola defined between two points would be able to approximate a curved area to solve for the area under the curve. 
+He used this theory to propose his first assumption about the nature of the approximation, which is today known as the "Simpson's 3/8 rule".
+He then, in his manuscript *Of Quadrature by Ordinates* (1695), proposed a method for determining the weights, in which, due to the ratios of his error terms being incorrect, his values were slightly off. 
+Roger Cotes furthered the work of Newton in his *Harmonia Mensurarum* (1722), determining the weights for values up to $n = 11$, hence the name "Newton-Cotes quadrature". 
 
 <img 
     style="display: block; 
@@ -46,9 +43,22 @@ Isaac Newton, in his *Principia* (1687), proposed a theory of numerical integrat
     src="newton_manuscript.jpg" 
     alt="newton_manuscript">
 </img>
+## Process
+The steps to apply the method for closed-form quadrature on the intergral ($\int_{a}^{b} f(x) dx\$) are as follows:
+1. Determine a desired polynomial degree $n$.
+2. Define a set of x-values equally spaced between $a$ and $b$ ($x_i= a+ih$ for $i$ from 0 to $n$ inclusive and where $h = \frac{b−a}{n}$).
+3. Compute $f(x_i)$ for each value of $x_i$.
+4. Use predetermined weights ($H_{i,n}$) at each value to compute the integral. The final value is
+   $$\int_{a}^{b} f(x) dx = \sum_{i=0}^{n} H_{i,n}f(x_i) + E_n(f)$$
+   , where $E_n(f)$ is the error term associated with the approximation.
+
+The most well-known forms of the Newton-Cotes closed-form quadrature are the trapezoidal rule (with an interpolating polynomial degree of $n=1$), and the Simpson's 1/3 rule and 3/8 rule (both with $n=2$). 
+These are widely regarded due to their simplicity and precision, though they have a tendency to misrepresent functions over large intervals with more complex curvature due to their simplicity. 
+
+The open-form quadrature method works similarly, but does not consider values at the endpoints $a$ and $b$ in the computation, using only the interior points. This changes the defined weights for computation.
+
 ## Differences from Other Types of Quadrature
 Newton-Cotes quadrature, as opposed to other forms of quadrature such as Gaussian quadrature, is simple, requiring low derivative computation that can be done by hand or by simple programs. However, for larger values of $n$ and higher desired accuracy, the approximation can produce erratic results and the problem can become ill-defined. For any value above $n=11$, there will be at least one negative weight, and in general, $\sum_{i=0}^{n} |H_{i,n}| \rightarrow \infty$ as $n \rightarrow \infty$. Instead, it is better to divide the interval into [subintervals](#Extension-to-Composite-Quadrature). 
-## Uses
 ## Derivations
 ## Error
 ## Extension to Composite Quadrature
