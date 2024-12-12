@@ -48,15 +48,14 @@ The steps to apply the method for closed-form quadrature on the intergral ($\int
 1. Determine a desired polynomial degree $n$.
 2. Define a set of x-values equally spaced between $a$ and $b$ ($x_i= a+ih$ for $i$ from 0 to $n$ inclusive and where $h = \frac{b−a}{n}$).
 3. Compute $f(x_i)$ for each value of $x_i$.
-4. Use predetermined weights ($H_{i,n}$) at each value to compute the integral. The final value is
+4. Use predetermined weights ($H_{i,n}$) at each value to compute the integral. The weights are [computed](#Derivations) in such a way as to mimic the behavior of the interpolating polynomial over that interval. The final value is
    $$\int_{a}^{b} f(x) dx = \sum_{i=0}^{n} H_{i,n}f(x_i) + E_n(f)$$
    , where $E_n(f)$ is the error term associated with the approximation.
 
 The most well-known forms of the Newton-Cotes closed-form quadrature are the trapezoidal rule (with an interpolating polynomial degree of $n=1$), and the Simpson's 1/3 rule and 3/8 rule (both with $n=2$). 
 These are widely regarded due to their simplicity and precision, though they have a tendency to misrepresent functions over large intervals with more complex curvature due to their simplicity. 
 
-The open-form quadrature method works similarly, but does not consider values at the endpoints $a$ and $b$ in the computation, using only the interior points. This changes the defined weights for computation.
-
+The open-form quadrature method works similarly, but does not consider values at the endpoints $a$ and $b$ in the computation, using only the interior points. This changes the defined weights for computation. The final value is instead $$\int_{a}^{b} f(x) dx = \sum_{i=1}^{n-1} H_{i,n}f(x_i) + E_n(f)$$. 
 ## Differences from Other Types of Quadrature
 Newton-Cotes quadrature, as opposed to other forms of quadrature such as Gaussian quadrature, is simple, requiring low derivative computation that can be done by hand or by simple programs. However, for larger values of $n$ and higher desired accuracy, the approximation can produce erratic results and the problem can become ill-defined. For any value above $n=11$, there will be at least one negative weight, and in general, $\sum_{i=0}^{n} |H_{i,n}| \rightarrow \infty$ as $n \rightarrow \infty$. Instead, it is better to divide the interval into [subintervals](#Extension-to-Composite-Quadrature). 
 ## Derivations
