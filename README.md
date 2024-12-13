@@ -80,11 +80,38 @@ Weights ($H_{i,n}$) for Open-Form Quadrature for $n$ = 0 to 5
 ## Differences from Other Types of Quadrature
 Newton-Cotes quadrature, as opposed to other forms of quadrature such as Gaussian quadrature and spline quadrature, is simple, requiring low derivative computation that can be done by hand or by simple programs. It also does not vary the weights necessary for interpolation and samples at equally spaced points. Therefore, in cases where the values at equally spaced intervals are given, Newton-Cotes quadrature is easier to compute. 
 
-However, for larger values of $n$ and higher desired accuracy, the approximation can produce erratic results and the problem can become ill-defined due to Runge's phenomenon. For any value above $n=11$, there will be at least one negative weight in closed form quadrature, and in general, $\sum_{i=0}^{n} |H_{i,n}| \rightarrow \infty$ as $n \rightarrow \infty$. Instead, it is better to divide the interval into [subintervals](#Extension-to-Composite-Quadrature) or to switch to another quadrature method
+However, for larger values of $n$ and higher desired accuracy, the approximation can produce erratic results and the problem can become ill-defined due to Runge's phenomenon. For any value above $n=11$, there will be at least one negative weight in closed form quadrature, and in general, $\sum_{i=0}^{n} |H_{i,n}| \rightarrow \infty$ as $n \rightarrow \infty$. Instead, it is better to divide the interval into [subintervals](#Extension-to-Composite-Quadrature) or to switch to another quadrature method.
+
+<img 
+    style="display: block; 
+           margin-left: auto;
+           margin-right: auto;
+           width: 50%;"
+    src="NewtonCotesQuadratureFormulas_Snapshot-1.png" 
+    alt="Wolfram Alpha plot">
+</img>
 
 One alternative is to use a least-squares approximation instead of a polynomial interpolation. Knowing that approximations with a lower value of $n$ have stronger noise suppression, least-squares approximations can be used to derive higher order integration filters. The main cost to this, however, is a larger constant in the error term than traditional Newton-Cotes quadrature. 
 ## Derivations
-The Lagrange interpolating polynomial is the 
+The polynomial necessary to integrate for the approximation is the Lagrange interpolating polynomial, which has inputs of the x and y coordinates of the points comprising it. For points ($x_0$, $y_0$), ($x_1$, $y_1$), ... , ($x_n$, $y_n$), it is first necessary to get the basis polynomials, which are the set of polynomials $l_i$ for which $l_i(x_k) = 0$ for $i \neq k$ and $l_i(x_i) = 1$. The basis polynomials can be written as 
+
+$$l_i(x) = \frac{(x - x_0)(x - x_1)...(x-x_{i-1})(x-x_{i+1})...(x-x_n)}{(x_i - x_0)(x_i - x_1)...(x_i-x_{i-1})(x_i-x_{i+1})...(x_i-x_n)}$$
+
+The Lagrange interpolating polynomial is then written as the linear combination of the basis polynomials:
+
+$$L(x) = \sum_{i=0}^{n} y_il_i$$
+
+For example, for the case of closed-form interpolation with n=2, there would be four points: ($x_0$, $y_0$), ($x_1$, $y_1$), ($x_2$, $y_2$), and ($x_3$, $y_3$). Then the basis polynomials would be written as
+
+$$l_0(x) = \frac{(x - x_1)(x-x_2)(x-x_3)}{(x_0 - x_1)(x_0 - x_2)(x_0 - x_3)}$$
+
+$$l_1(x) = \frac{(x - x_0)(x-x_2)(x-x_3)}{(x_1 - x_0)(x_1-x_2)(x_1-x_3)}$$
+
+$$l_2(x) = \frac{(x - x_0)(x - x_1)(x-x_3)}{(x_2 - x_0)(x_2 - x_1)(x_2-x_3)}$$
+
+$$l_3(x) = \frac{(x - x_0)(x - x_1)(x-x_2)}{(x_3 - x_0)(x_3 - x_1)(x_3-x_2)}$$
+
+Noting that these points are equally spaced, so 
 ## Error
 ## Extension to Composite Quadrature
 ## References
