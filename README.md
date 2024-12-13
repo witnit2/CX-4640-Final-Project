@@ -51,7 +51,7 @@ The steps to apply the method for closed-form quadrature on the intergral ($\int
    $$\int_{a}^{b} f(x) dx = h\sum_{i=0}^{n} H_{i,n}f(x_i) + E_n(f)$$
    , where $E_n(f)$ is the error term associated with the approximation.
 
-Weights ($H_{i,n}$) for Closed-Form Quadrature for $n$ = 1 to 5 [5]
+**Weights ($H_{i,n}$) for Closed-Form Quadrature for $n$ = 1 to 5 [5]**
 
 | $n$       | $H_{i,n}$                                |
 | -------------------------------- |:--------------------------------------:|
@@ -66,7 +66,7 @@ These are widely regarded due to their simplicity and precision, though they hav
 
 The open-form quadrature method works similarly, but does not consider values at the endpoints $a$ and $b$ in the computation, using only the interior points. This changes the defined weights for computation. The final value is still the same: $$\int_{a}^{b} f(x) dx = h\sum_{i=0}^{n} H_{i,n}f(x_i) + E_n(f)$$. 
 
-Weights ($H_{i,n}$) for Open-Form Quadrature for $n$ = 0 to 5
+**Weights ($H_{i,n}$) for Open-Form Quadrature for $n$ = 0 to 5**
 
 | $n$       | $H_{i,n}$                                |
 | -------------------------------- |:--------------------------------------:|
@@ -126,7 +126,19 @@ $$\int_{a}^{b} L(x) = \sum_{i=0}^{3} y_il_i = h(\frac{3}{8}f(x_0) + \frac{9}{8}f
 
 The weights correspond to those in Simpson's 3/8 rule for $n =$ 3.
 ## Error
+Because the polynomial is an approximation of the true value of the integral, there must be an associated error term. To find this, assume an integer $k$ [9], defined by
 
+$$k = \begin{cases} 
+          \frac{n}{2} & if\ n\ is\ even \\
+          \frac{n-1}{2} & else 
+       \end{cases}
+    $$
+
+Set $A(x) = \prod_{i=0}^{2k} (x - x_i)$, so $A(x)$ is of degree $n$ or $n+1$ depending on whether $k$ is even or odd. This polynomial is known as the scaling function. Also set $A^{*}(t) = \int_{a}^t A(x) dx$. Then it is stated that
+
+$$E_n(f) = \frac{f^{2k + 2}\xi}{(2k+2)!}\int_{a}^{b} A^{*}(t) dt$$
+
+where $a < \xi < b$.
 ## Extension to Composite Quadrature
 ## References
 1. El-Mikkawy, M. (2002). A unified approach to Newton–Cotes quadrature formulae. Applied Mathematics and Computation, 138(2–3), 403–413. https://doi.org/10.1016/s0096-3003(02)00144-3
