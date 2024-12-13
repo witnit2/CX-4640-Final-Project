@@ -57,10 +57,10 @@ Weights ($H_{i,n}$) for Closed-Form Quadrature for $n$ = 1 to 5
 | $n$       | $H_{i,n}$                                |
 | -------------------------------- |:--------------------------------------:|
 | 1      | $\frac{1}{2}$, $\frac{1}{2}$   |
-| 2      | $\frac{1}{6}$, $\frac{2}{3}$, $\frac{1}{6}$      | 
-| 3      | $\frac{1}{8}$, $\frac{3}{8}$, $\frac{3}{8}$, $\frac{1}{8}$     |
-| 4      | $\frac{7}{90}$, $\frac{32}{90}$, $\frac{12}{90}$, $\frac{32}{90}$, $\frac{7}{90}$    |
-| 5      | $\frac{19}{288}$, $\frac{25}{96}$, $\frac{25}{144}$, $\frac{25}{144}$, $\frac{25}{96}$, $\frac{19}{288}$    |
+| 2      | $\frac{1}{3}$, $\frac{4}{3}$, $\frac{1}{3}$      | 
+| 3      | $\frac{1}{4}$, $\frac{3}{4}$, $\frac{3}{4}$, $\frac{1}{4}$     |
+| 4      | $\frac{14}{45}$, $\frac{64}{45}$, $\frac{24}{45}$, $\frac{64}{45}$, $\frac{14}{45}$    |
+| 5      | $\frac{95}{288}$, $\frac{125}{96}$, $\frac{125}{144}$, $\frac{125}{144}$, $\frac{125}{96}$, $\frac{95}{288}$    |
 
 The most well-known forms of the Newton-Cotes closed-form quadrature are the trapezoidal rule (with an interpolating polynomial degree of $n=1$), Simpson's 1/3 rule (with $n = 2$), and Simpson's 3/8 rule (with $n = 3$). 
 These are widely regarded due to their simplicity and precision, though they have a tendency to misrepresent functions over large intervals with more complex curvature due to their simplicity. 
@@ -73,10 +73,10 @@ Weights ($H_{i,n}$) for Open-Form Quadrature for $n$ = 0 to 5
 | -------------------------------- |:--------------------------------------:|
 | 0      | 1  |
 | 1      | $\frac{1}{2}$, $\frac{1}{2}$      | 
-| 2      | $\frac{2}{3}$, $-\frac{1}{3}$, $\frac{2}{3}$     |
-| 3      | $\frac{1}{24}$, $\frac{11}{24}$, $\frac{11}{24}$, $\frac{1}{24}$    |
-| 4      | $\frac{11}{20}$, $-\frac{7}{10}$, $\frac{13}{10}$, $-\frac{7}{10}$, $\frac{11}{20}$ |
-| 5      | $\frac{611}{1440}$, $-\frac{151}{480}$, $\frac{281}{720}$, $\frac{281}{720}$, $-\frac{151}{480}$, $\frac{611}{1440}$ |
+| 2      | $\frac{4}{3}$, $-\frac{2}{3}$, $\frac{4}{3}$     |
+| 3      | $\frac{1}{8}$, $\frac{11}{8}$, $\frac{11}{8}$, $\frac{1}{8}$    |
+| 4      | $\frac{11}{5}$, $-\frac{14}{5}$, $\frac{26}{5}$, $-\frac{14}{5}$, $\frac{11}{5}$ |
+| 5      | $\frac{611}{288}$, $-\frac{151}{96}$, $\frac{281}{144}$, $\frac{281}{144}$, $-\frac{151}{96}$, $\frac{611}{288}$ |
 ## Differences from Other Types of Quadrature
 Newton-Cotes quadrature, as opposed to other forms of quadrature such as Gaussian quadrature and spline quadrature, is simple, requiring low derivative computation that can be done by hand or by simple programs. It also does not vary the weights necessary for interpolation and samples at equally spaced points. Therefore, in cases where the values at equally spaced intervals are given, Newton-Cotes quadrature is easier to compute. 
 
@@ -111,8 +111,23 @@ $$l_2(x) = \frac{(x - x_0)(x - x_1)(x-x_3)}{(x_2 - x_0)(x_2 - x_1)(x_2-x_3)}$$
 
 $$l_3(x) = \frac{(x - x_0)(x - x_1)(x-x_2)}{(x_3 - x_0)(x_3 - x_1)(x_3-x_2)}$$
 
-Noting that these points are equally spaced, so 
+Note that these points are equally spaced, so $x_0 = a$, $x_1 = a+h$, $x_2 = a+2h$, and $x_3 = b = a+3h$. Then the definite integral of each basis polynomial, which would comprise the definite integral of the Lagrange polynomial, may be computed:
+
+$$\int_{a}^{b} l_0(x) = \int_{a}^{b} \frac{(x - (a+h))(x-(a+2h))(x-(a+3h))}{-6h^3} = \frac{3h}{8}$$
+
+$$\int_{a}^{b} l_1(x) = \int_{a}^{b} \frac{(x - a)(x-(a+2h))(x-(a+3h))}{-2h^3} = \frac{9h}{8}$$
+
+$$\int_{a}^{b} l_2(x) = \int_{a}^{b} \frac{(x - a)(x - (a+h))(x-(a+3h))}{-2h^3} = \frac{9h}{8}$$
+
+$$\int_{a}^{b} l_3(x) = \int_{a}^{b} \frac{(x - a)(x - (a+h))(x-(a+2h))}{-6h^3} = \frac{3h}{8}$$
+
+Then the definite integral of the Lagrange interpolating polynomial over this range is 
+
+$$\int_{a}^{b} L(x) = \sum_{i=0}^{3} y_il_i = h(\frac{3}{8}f(x_0) + \frac{9}{8}f(x_1) + \frac{9}{8}f(x_2) + \frac{3}{8}f(x_3))$$
+
+The weights correspond to those in Simpson's 3/8 rule for $n =$ 3.
 ## Error
+
 ## Extension to Composite Quadrature
 ## References
 1. El-Mikkawy, M. (2002). A unified approach to Newton–Cotes quadrature formulae. Applied Mathematics and Computation, 138(2–3), 403–413. https://doi.org/10.1016/s0096-3003(02)00144-3
