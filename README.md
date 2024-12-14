@@ -122,7 +122,7 @@ $$\int_{a}^{b} l_3(x) = \int_{a}^{b} \frac{(x - a)(x - (a+h))(x-(a+2h))}{-6h^3} 
 
 Then the definite integral of the Lagrange interpolating polynomial over this range is 
 
-$$\int_{a}^{b} L(x) = \sum_{i=0}^{3} y_il_i = h(\frac{3}{8}f(x_0) + \frac{9}{8}f(x_1) + \frac{9}{8}f(x_2) + \frac{3}{8}f(x_3))$$
+$$\int_{a}^{b} f(x) \approx \int_{a}^{b} L(x) = \sum_{i=0}^{3} y_il_i = h(\frac{3}{8}f(x_0) + \frac{9}{8}f(x_1) + \frac{9}{8}f(x_2) + \frac{3}{8}f(x_3))$$
 
 The weights correspond to those in Simpson's 3/8 rule for $n =$ 3.
 ## Error
@@ -142,7 +142,23 @@ where $a < \xi < b$.
 ## Extension to Composite Quadrature
 In cases where the [domain is too large or the value of $n$ would need to be too high for computation](#Differences-from-Other-Types-of-Quadrature), the optimal solution is to break up the domain into smaller subintervals and compute the Newton-Cotes quadrature on each of the subintervals with smaller values of $n$, a process known as composite quadrature. The subintervals are not bounded by size but are typically kept the same size for simplicity; in the event of a more complex geometry in certain regions of the domain, however, the subinterval length may be decreased to capture the geometry accurately. This also may exist in both closed and open forms, where the closed form interpolates over the endpoints of the subinterval and the open form does not. 
 
-In the case of the composite trapezoidal rule, the endpoints of the entire domain would be counted once and the endpoints of each 
+<img 
+    style="display: block; 
+           margin-left: auto;
+           margin-right: auto;
+           width: 50%;"
+    src="Screenshot 2024-12-13 220503.png" 
+    alt="Trapezoidal Rule">
+</img>
+
+In the case of the composite trapezoidal rule, the endpoints of the entire domain would be counted once and the endpoints of each subinterval would each be counter twice, so the formula for the computation, where $n$ is the number of equally spaced subintervals and $h = \frac{b-a}{n}$, is
+
+$$\int_{a}^{b}f(x) \approx \frac{h}{2}[f(a) + 2\sum_{i=1}^{n-1}(f(a + ih)) + f(b)]$$
+
+For the composite Simpson's 1/3 rule, a slightly different approach is necessary. The value of $n$ is chosen such that it is even, and Simpson's rule is applied to each consecutive pair of subintervals. Then the formula for composite Simpson's 1/3 rule is 
+
+$$\int_{a}^{b}f(x) \approx \frac{h}{3}[f(a) + 4\sum_{i=1}^{\frac{n}{2}-1}(f(a + (2i-1)h)) + 2\sum_{i=1}^{\frac{n-1}{2}}(f(a + 2ih)) + f(b)]$$
+
 ## References
 1. El-Mikkawy, M. (2002). A unified approach to Newton–Cotes quadrature formulae. Applied Mathematics and Computation, 138(2–3), 403–413. https://doi.org/10.1016/s0096-3003(02)00144-3
 2. Agbota, L. (2024). Newton-Cotes Quadrature Formulas with Error Term. https://doi.org/10.13140/RG.2.2.27346.98241
