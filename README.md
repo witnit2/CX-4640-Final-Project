@@ -79,7 +79,7 @@ The open-form quadrature method works similarly, but does not consider values at
 ## Differences from Other Types of Quadrature
 Newton-Cotes quadrature, as opposed to other forms of quadrature such as Gaussian quadrature and spline quadrature, is simple, requiring low derivative computation that can be done by hand or by simple programs [6]. It also does not vary the weights necessary for interpolation and samples at equally spaced points. Therefore, in cases where the values at equally spaced intervals are given, Newton-Cotes quadrature is easier to compute. 
 
-However, for larger values of $n$ and higher desired accuracy, the approximation can produce erratic results and the problem can become ill-defined due to Runge's phenomenon. For any value above $n=11$, there will be at least one negative weight in closed form quadrature, and in general, $\sum_{i=0}^{n} |H_{i,n}| \rightarrow \infty$ as $n \rightarrow \infty$. Instead, it is better to divide the interval into [subintervals](#Extension-to-Composite-Quadrature) or to switch to another quadrature method.
+The [error](#Error) is directly tied to the value of h, which is dependent on the value of $b-a$, so Newton-Cotes quadrature is much less accurate over larger domains. One suggestion for solving this issue would be to increase the value of $n$, i.e. adding more points for interpolation. However, for larger values of $n$ and higher desired accuracy, the approximation can produce erratic results and the problem can become ill-defined due to Runge's phenomenon. For any value above $n=11$, there will be at least one negative weight in closed form quadrature, and in general, $\sum_{i=0}^{n} |H_{i,n}| \rightarrow \infty$ as $n \rightarrow \infty$. Instead, it is better to divide the interval into [subintervals](#Extension-to-Composite-Quadrature) or to switch to another quadrature method.
 
 <img 
     style="display: block; 
@@ -140,6 +140,9 @@ $$E_n(f) = \frac{f^{2k + 2}\xi}{(2k+2)!}\int_{a}^{b} A^{*}(t) dt$$
 
 where $a < \xi < b$.
 ## Extension to Composite Quadrature
+In cases where the [domain is too large or the value of $n$ would need to be too high for computation](#Differences-from-Other-Types-of-Quadrature), the optimal solution is to break up the domain into smaller subintervals and compute the Newton-Cotes quadrature on each of the subintervals with smaller values of $n$, a process known as composite quadrature. The subintervals are not bounded by size but are typically kept the same size for simplicity; in the event of a more complex geometry in certain regions of the domain, however, the subinterval length may be decreased to capture the geometry accurately. This also may exist in both closed and open forms, where the closed form interpolates over the endpoints of the subinterval and the open form does not. 
+
+In the case of the composite trapezoidal rule, the endpoints of the entire domain would be counted once and the endpoints of each 
 ## References
 1. El-Mikkawy, M. (2002). A unified approach to Newton–Cotes quadrature formulae. Applied Mathematics and Computation, 138(2–3), 403–413. https://doi.org/10.1016/s0096-3003(02)00144-3
 2. Agbota, L. (2024). Newton-Cotes Quadrature Formulas with Error Term. https://doi.org/10.13140/RG.2.2.27346.98241
@@ -147,6 +150,7 @@ where $a < \xi < b$.
 4. Catapang, L., Mandaje, J., & Siong, V. (2024). Convergence Analysis of Newton-Cotes methods: Optimizing Sub-Intervals selection for precise integral approximation. Applied Mathematics and Sciences: An International Journal, 11(1/2).
 5. Magalhaes, P.A.A. & Magalhaes, C.A. Higher-Order Newton-Cotes Formulas. J. Math. Stat. 2010,6, 193–204.
 6. Sermutlu, E. (2005). Comparison of Newton–Cotes and gaussian methods of quadrature. Applied Mathematics and Computation, 171(2), 1048–1057. https://doi.org/10.1016/j.amc.2005.01.102
-7. Pavel Holoborodko (2011-03-24). ["Stable Newton-Cotes Formulas"](http://www.holoborodko.com/pavel/numerical-methods/numerical-integration/stable-newton-cotes-formulas/)
+7. Daan Huybrechs, Stable high-order quadrature rules with equidistant points, Journal of Computational and Applied Mathematics, Volume 231, Issue 2, 2009, Pages 933-947, ISSN 0377-0427, https://doi.org/10.1016/j.cam.2009.05.018.
 8. Das, Biswajit & Chakrabarty, Dhritikesh. (2016). Lagrange’s Interpolation Formula: Representation of Numerical Data by a Polynomial curve. International Journal of Mathematics Trends and Technology. 34. 64-72. 10.14445/22315373/IJMTT-V34P514.
 9. Hayes, D. R., & Rubin, L. (1970). A Proof of the Newton-Cotes Quadrature Formulas with Error Term. The American Mathematical Monthly, 77(10), 1065–1072. https://doi.org/10.2307/2316094
+10. 5.2 Composite Newton-Cotes formulas — First Semester in Numerical Analysis with Python. (n.d.). https://yaningliucudenver.github.io/Numerical-Analysis-I/bookchapter5-2.html
